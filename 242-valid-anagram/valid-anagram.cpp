@@ -1,33 +1,25 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char,int> hm1;
-        unordered_map<char,int> hm2;
+        vector<int> vec(26,0);
 
         for (char x: s)
         {
-            hm1[x]++;
-        }   
+            vec[x-'a']++;
+        }
+
         for (char x: t)
         {
-            hm2[x]++;
+            vec[x-'a']--;
         }
 
-        for (auto [x,y]: hm1)
+        for (int i = 0; i < 26; i++)
         {
-            cout<<x<<endl;
-            if (hm2.find(x) == hm2.end())
+            if (vec[i] != 0)
+            {
                 return false;
-            if (hm2[x] != y)
-                return false;
-            hm2.erase(x);
+            }
         }
-
-        if (!hm2.empty())
-        {
-            return false;
-        }
-
         return true;
     }
 };
