@@ -64,6 +64,72 @@ public:
 
 
     }
+
+
+
+
+long long int tab(vector<vector<int>> obs) {
+    int r = obs.size();
+    int c = obs[0].size();
+
+    vector<vector<long long int>> dp(r+1, vector<long long int> (c+1, 0));
+
+    if (obs[r-1][c-1] == 0) {
+        dp[r-1][c-1] = 1;
+    } else {
+        return 0;
+    }
+
+    for (int i = r-1; i >= 0; i--) {
+        for (int j = c-1; j >= 0; j--) {
+            if (obs[i][j] == 1) {
+                dp[i][j] = 0;
+            } else {
+                dp[i][j] += dp[i+1][j] + dp[i][j+1];
+            }
+        }
+    }
+
+    return dp[0][0];
+}
+
+    int ttab(vector<vector<int>> obs)
+    {
+        int r = obs.size();
+        int c = obs[0].size();
+
+        vector<vector<int>> dp(r+1, vector<int> (c+1,0));
+        if (obs[r-1][c-1] == 0)
+        {
+            dp[r-1][c-1] = 1;
+        }
+        else
+        {
+            return 0;
+        }
+        for (int i = r-1; i >= 0; i--)
+        {
+            for (int j = c-1; j >= 0; j--)
+            {
+                if (obs[i][j] == 1)
+                {
+                    dp[i][j] = 0;
+                }
+                else
+                {
+                    dp[i][j] += dp[i+1][j] + dp[i][j+1];
+                }
+
+            }
+        }
+
+
+        return dp[0][0];
+
+    }
+
+
+
     int uniquePathsWithObstacles(vector<vector<int>>& obs) {
         int ans = 0;
         int i = 0, j = 0;
@@ -71,6 +137,7 @@ public:
         int r = obs.size();
         int c = obs[0].size();
         vector<vector<int>> dp(r, vector<int> (c,-1));
-        return memo(0,0,obs,dp,r,c);
+        //return memo(0,0,obs,dp,r,c);
+        return int(tab(obs));
     }
 };
