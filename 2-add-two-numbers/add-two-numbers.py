@@ -5,29 +5,38 @@
 #         self.next = next
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = ListNode(0)  # Start with a dummy node to simplify logic
-        current = dummy  # This will be used to build the result linked list
-        carry = 0  # Initialize carry
+        dummy = ListNode(0)
 
-        # Traverse both linked lists
+        current = dummy
+
+        carry = 0
+
         while l1 or l2 or carry:
-            # Get values from l1 and l2, or use 0 if the node is null
-            val1 = l1.val if l1 else 0
-            val2 = l2.val if l2 else 0
-            total_sum = val1 + val2 + carry
+            digit1 = l1.val if l1 else 0
+            digit2 = l2.val if l2 else 0
 
-            # Update carry for next digit
-            carry = total_sum // 10
+            cs = digit1 + digit2 + carry
 
-            # Create new node with the digit and add to the result list
-            current.next = ListNode(total_sum % 10)
+            carry = cs // 10
+
+
+            to_add = ListNode(cs % 10)
+            current.next = to_add
             current = current.next
 
-            # Move to the next nodes in l1 and l2 if available
-            if l1: 
+
+            if l1:
                 l1 = l1.next
-            if l2: 
+            if l2:
                 l2 = l2.next
 
-        # Return the next node of the dummy, which is the head of the result linked list
+    
+
         return dummy.next
+
+
+
+
+
+
+        
