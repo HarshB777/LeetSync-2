@@ -12,43 +12,45 @@
 class Solution {
 public:
     TreeNode* reverseOddLevels(TreeNode* root) {
-        queue<TreeNode*> curr;
-        queue<TreeNode*> curr_dup;
+        queue<TreeNode*> orgTree;
+        queue<TreeNode*> newTree;
 
 
-        queue<TreeNode*> prev_dup;
+        queue<TreeNode*> evenLevelTracker;
 
-        curr.push(root);
-        curr.push(NULL);
+        orgTree.push(root);
+        orgTree.push(NULL);
 
         TreeNode* first = new TreeNode(root->val);
         TreeNode* ans = new TreeNode(0);
         ans->left = first;
-        curr_dup.push(first);
-        curr_dup.push(NULL);
+
+
+        newTree.push(first);
+        newTree.push(NULL);
 
         int row = 0;
         stack<int> stack;
 
-        while (!curr.empty())
+        while (!orgTree.empty())
         {
-            TreeNode* node = curr.front();
-            curr.pop();
-            TreeNode* node_dup = curr_dup.front();
-            if (row % 2 == 0 && node_dup != NULL)
+            TreeNode* node = orgTree.front();
+            orgTree.pop();
+            TreeNode* newNode = newTree.front();
+            if (row % 2 == 0 && newNode != NULL)
             {
-                prev_dup.push(node_dup);
+                evenLevelTracker.push(newNode);
             }
-            curr_dup.pop();
+            newTree.pop();
 
             if (node == NULL)
             {
-                if (row % 2 == 0 && !curr.empty())
+                if (row % 2 == 0 && !orgTree.empty())
                 {
-                    while (!prev_dup.empty())
+                    while (!evenLevelTracker.empty())
                     {
-                        TreeNode* cnode = prev_dup.front();
-                        prev_dup.pop();
+                        TreeNode* cnode = evenLevelTracker.front();
+                        evenLevelTracker.pop();
 
                         for (int z = 0; z < 2; z++)
                         {
@@ -59,21 +61,21 @@ public:
                             if (z == 0)
                             {
                                 cnode->left = tmp;
-                                curr_dup.push(tmp);
+                                newTree.push(tmp);
                             }
                             else
                             {
                                 cnode->right = tmp;
-                                curr_dup.push(tmp);
+                                newTree.push(tmp);
                             }
                         }
                     }
                 }
 
-                if (!curr.empty())
+                if (!orgTree.empty())
                 {
-                    curr.push(NULL);
-                    curr_dup.push(NULL);
+                    orgTree.push(NULL);
+                    newTree.push(NULL);
                 }
 
                 row++;
@@ -82,12 +84,12 @@ public:
             
             if (node->left)
             {
-                curr.push(node->left);
+                orgTree.push(node->left);
                 if (row % 2 == 1)
                 {
                     TreeNode* tmp = new TreeNode(node->left->val);
-                    node_dup->left = tmp;
-                    curr_dup.push(tmp);
+                    newNode->left = tmp;
+                    newTree.push(tmp);
                 }
                 else
                 {
@@ -97,12 +99,12 @@ public:
             
             if (node->right)
             {
-                curr.push(node->right);
+                orgTree.push(node->right);
                 if (row % 2 == 1)
                 {
                     TreeNode* tmp = new TreeNode(node->right->val);
-                    node_dup->right = tmp;
-                    curr_dup.push(tmp);
+                    newNode->right = tmp;
+                    newTree.push(tmp);
                 }
                 else
                 {
