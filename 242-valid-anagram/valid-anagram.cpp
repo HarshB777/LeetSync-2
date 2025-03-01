@@ -1,20 +1,23 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char, int> hm;
+        vector<int> vec(26, 0);
+
         for (char x: s)
         {
-            hm[x]++;
+            vec[x-'a']++;
         }
         for (char x: t)
         {
-            hm[x]--;
-            if (hm[x]==0)
-            {
-                hm.erase(x);
-            }
+            vec[x-'a']--;
         }
 
-        return hm.size()==0;
+        for (int i = 0; i < 26; i++) {
+            if (vec[i] != 0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 };
