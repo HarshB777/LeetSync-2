@@ -92,10 +92,6 @@ public:
         prop = properties;
         limit = k;
         constructGraph();
-        displayGraph();
-
-
-
         return connectedComponents();
 
 
